@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.py[cod]
+chroma_data/
+documents/
+*.db
+*.db-shm
+*.db-wal
+.pytest_cache/
+.vscode/

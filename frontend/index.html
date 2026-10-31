@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Private local AI assistant for researching public websites">
+  <title>AtlasIQ</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand-mini"><span class="brand-mark">A</span><span>AtlasIQ</span></div>
+
+      <section class="side-section">
+        <p class="eyebrow">System</p>
+        <div class="status-card">
+          <span id="status-dot" class="status-dot"></span>
+          <div><strong id="model-status">Connecting…</strong><small id="model-name">Local Ollama</small></div>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <p class="eyebrow">Thinking depth</p>
+        <div class="segmented" role="group" aria-label="Thinking depth">
+          <button class="style-button" data-thinking="off">Off</button>
+          <button class="style-button" data-thinking="low">Low</button>
+          <button class="style-button active" data-thinking="medium">Medium</button>
+          <button class="style-button" data-thinking="high">High</button>
+        </div>
+      </section>
+
+      <section class="side-section">
+        <div class="section-heading"><p class="eyebrow">Knowledge base</p><span id="knowledge-count">—</span></div>
+        <label class="source-field" for="source-url">
+          <span>Website URL</span>
+          <input id="source-url" type="url" value="https://jssstuniv.in/" placeholder="https://example.com/" autocomplete="url" spellcheck="false">
+        </label>
+        <div class="knowledge-card">
+          <div><span>Built-in records</span><strong id="seed-count">—</strong></div>
+          <div><span>Stored web chunks</span><strong id="web-count">—</strong></div>
+          <div><span>Gathered preview</span><strong id="preview-count">—</strong></div>
+          <div><span>Last refresh</span><strong id="last-refresh">Never</strong></div>
+        </div>
+        <button id="refresh-button" class="secondary-button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8.1 8.1 0 0 0-15.5-2M4 4v5h5M4 13a8.1 8.1 0 0 0 15.5 2M20 20v-5h-5"/></svg>
+          <span>Gather website data</span>
+        </button>
+        <button id="store-button" class="secondary-button store-button hidden">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5c0-1.1 3.6-2 8-2s8 .9 8 2-3.6 2-8 2-8-.9-8-2Z"/><path d="M4 5v7c0 1.1 3.6 2 8 2s8-.9 8-2V5M4 12v7c0 1.1 3.6 2 8 2s8-.9 8-2v-7"/></svg>
+          <span>Store gathered data</span>
+        </button>
+        <div id="crawl-progress" class="crawl-progress hidden">
+          <div><span id="crawl-label">Gathering pages…</span><span id="crawl-percent">0%</span></div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+        </div>
+      </section>
+
+      <div class="privacy-note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <div><strong>Private by design</strong><span>Chat and AI stay on this computer.</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menu-button" class="icon-button" aria-label="Toggle menu">☰</button>
+        <div class="online-pill"><span></span>Local mode</div>
+        <div><button id="report-button" class="clear-button">Generate report</button><button id="clear-button" class="clear-button">Clear chat</button></div>
+      </header>
+
+      <div class="content">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="hero-badge">LOCAL RAG · FASTAPI · OLLAMA</div>
+            <h1>Turn any website<br><span>into answers.</span></h1>
+            <p>Enter a public website, gather its pages into MySQL, and ask questions grounded only in the content that was collected.</p>
+          </div>
+          <div class="orb" aria-hidden="true"><div class="orb-core">A</div><span class="orbit one"></span><span class="orbit two"></span></div>
+        </section>
+
+        <section class="quick-section" aria-labelledby="quick-title">
+          <div class="section-heading-main"><h2 id="quick-title">Popular questions</h2><span>Start here</span></div>
+          <div class="quick-grid">
+            <button class="quick-card" data-question="What is this website about?"><span class="quick-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span><span><strong>Overview</strong><small>Summarize the selected website</small></span><b>→</b></button>
+            <button class="quick-card" data-question="What are the most important topics on this website?"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h12M4 18h8"/></svg></span><span><strong>Key topics</strong><small>Find the main themes</small></span><b>→</b></button>
+            <button class="quick-card" data-question="What services or products are described?"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M4 19V9l8-5 8 5v10M8 19v-6h8v6"/></svg></span><span><strong>Offerings</strong><small>Review products and services</small></span><b>→</b></button>
+            <button class="quick-card" data-question="What contact or support information is available?"><span class="quick-icon"><svg viewBox="0 0 24 24"><path d="M5 4h14v12H8l-3 3V4Z"/><path d="M9 9h6M9 12h4"/></svg></span><span><strong>Contact</strong><small>Find support information</small></span><b>→</b></button>
+          </div>
+        </section>
+
+        <section id="chat" class="chat" aria-live="polite">
+          <div class="message assistant welcome-message">
+            <div class="avatar assistant-avatar">W</div>
+            <div class="message-body"><p>Enter a website URL, scrape it, then ask questions. I’ll show the pages used for every answer.</p></div>
+          </div>
+        </section>
+      </div>
+
+      <form id="chat-form" class="composer">
+        <div class="composer-inner">
+          <textarea id="question-input" rows="1" maxlength="1000" placeholder="Ask about the selected website…" aria-label="Question"></textarea>
+          <button id="send-button" type="submit" aria-label="Send question">
+            <svg id="send-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            <svg id="stop-icon" class="hidden" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1"/></svg>
+          </button>
+        </div>
+        <p>Respect website terms and robots policies. Verify important claims on the source pages.</p>
+      </form>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
