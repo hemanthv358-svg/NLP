@@ -65,13 +65,17 @@ AtlasIQ/
 │   └── requirements.txt
 ├── frontend/                      HTML, CSS, JavaScript UI
 ├── docs/                          Architecture and guardrails
+├── datasets/                      Existing JSS STU QA CSV/JSON datasets
 ├── papers/                        Project references and reports
+├── project/                       Existing T5, BERT, and RoBERTa QA experiments
 ├── scripts/                       Windows launchers
 ├── .env.example
 ├── Dockerfile
 ├── docker-compose.yml
 └── bot.py
 ```
+
+The `datasets/` and `project/` directories are preserved from the repository's earlier NLP question-answering work. AtlasIQ's production application lives under `backend/` and `frontend/`.
 
 ## Prerequisites
 
